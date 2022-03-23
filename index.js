@@ -2,10 +2,13 @@ const express = require('express');
 const cors = require('cors');
 const routerApi = require('./routes');
 
-const { logErrors, errorHandler, boomErrorHandler } = require('./middlewares/error.handler');
+const {
+  logErrors,
+  errorHandler,
+  boomErrorHandler,
+} = require('./middlewares/error.handler');
 
 const app = express();
-const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
@@ -17,8 +20,8 @@ const options = {
     } else {
       callback(new Error('no permitido'));
     }
-  }
-}
+  },
+};
 app.use(cors(options));
 
 app.get('/', (req, res) => {
@@ -35,7 +38,6 @@ app.use(logErrors);
 app.use(boomErrorHandler);
 app.use(errorHandler);
 
-
-app.listen(port, () => {
-  console.log('Mi port' +  port);
+app.listen(3000, () => {
+  console.log('Servidor corriendo en el puerto 3000');
 });
