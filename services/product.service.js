@@ -1,20 +1,13 @@
 const faker = require('faker');
 const boom = require('@hapi/boom');
 //usamos el pool para manejar una unica conexion que siempre este abierta
-const pool = require('../libs/postgres.pool');
+const sequelize = require('../libs/sequelize');
 class ProductsService {
 
   constructor(){
     this.products = [];
     this.generate();
-    //definimos el pool en el contrutor para que siempre este disponible y usamos el metodo on
-    //para que este escuchando los eventos de conexion y desconexion o si hay un error
-    this.pool = pool;
-    this.pool.on('error', (err) => {
-      console.error('Unexpected error on idle client', err)
-      process.exit(-1)
-    }
-    )
+
   }
 
   generate() {
@@ -40,11 +33,14 @@ class ProductsService {
   }
 
   async find() {
-    //creamos un query y en el pool.query le pasamos la consulta anterior y lo guardamos en response
-    //para devolverlo
+    //creamos un query y en y usamos sequelize para consultar la base de datos ya que con sequelize
+    //lo gestiona automaticamente
     const query = 'SELECT * FROM tasks';
-    const response = await this.pool.query(query);
-    return response.rows;
+    //sequelize devuelve data en un arreglo, por eso data va dentro, tambien maneja metadata pos si se usa
+    const [data] = await sequelize.query(query);
+    return {
+      data
+    };
   }
 
   async findOne(id) {
