@@ -41,6 +41,7 @@ class User extends Model {
     return{
       sequelize,
       tableName: USER_TABLE,
+      //nombre con el que guardo sequelize la tabla y es consultada en los servicios
       modelName: 'User',
       timestamp: false
     }
