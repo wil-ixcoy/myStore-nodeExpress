@@ -1,0 +1,13 @@
+module.exports = {
+  //donde encuentra la configuracion y decirle que eso esta en db/config.js
+  'config': './db/config.js',
+
+  //donde encuentra los modelos, en la carpeta models
+  'models-path':'./db/models/',
+
+  //en donde va a encontrar las migraciones
+  'migrations-path':'.db/migrations/',
+
+  //en donde va a encontrar las seeds que sirven para pruebas unitarias
+  'seeders-path':'./db/seeders/',
+}
