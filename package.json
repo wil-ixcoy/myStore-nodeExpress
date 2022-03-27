@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "nodemon index.js",
     "start": "node index.js",
-    "lint": "eslint"
+    "lint": "eslint",
+    "migrations:generate":"sequelize-cli migration:generate --name"
+
   },
   "keywords": [],
   "author": "",

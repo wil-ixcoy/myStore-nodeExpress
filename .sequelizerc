@@ -6,7 +6,7 @@ module.exports = {
   'models-path':'./db/models/',
 
   //en donde va a encontrar las migraciones
-  'migrations-path':'.db/migrations/',
+  'migrations-path':'./db/migrations/',
 
   //en donde va a encontrar las seeds que sirven para pruebas unitarias
   'seeders-path':'./db/seeders/',
