@@ -1,11 +1,11 @@
 //vamos a crear los archivos de conexion, usaurio password y demas
 
-const {config} = require('../config/config.js');
+/* const {config} = require('../config/config.js');
+ */
+const USER = encodeURIComponent("nico");
+const PASSWORD = encodeURIComponent("admin123");
 
-const USER = encodeURIComponent(config.dbUser);
-const PASSWORD = encodeURIComponent(config.dbPassword);
-
-const URI = `postgres://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/${config.dbName}`;
+const URI = `postgres://${USER}:${PASSWORD}@localhost:5432/postgres`;
 //se crea la configuracion para modo de desarrollo cuando se usa en local, y modo produccion
 //cuando se haga deploy a heroku
 module.exports = {
