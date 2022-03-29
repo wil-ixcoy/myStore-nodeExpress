@@ -1,4 +1,3 @@
-
 'use strict';
 //usamos el schema y la tabal creada en user.model.js
 const {UserSchema,USER_TABLE} = require("./../models/user.model.js");
