@@ -12,6 +12,7 @@ function setupModels(sequelize) {
   //corremos la asociacion que se definion en customers.model.js y le enviamos los modelos que estan
   //en sequelize.models
   Customer.associate(sequelize.models);
+  User.associate(sequelize.models);
 
 }
 

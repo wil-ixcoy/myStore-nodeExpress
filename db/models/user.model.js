@@ -44,8 +44,11 @@ const UserSchema = {
 
 
 class User extends Model {
-  static  associate(){
-    //
+  static  associate(models){
+    //la tabla users tiene relacion con Customer por eso pasamos el modelo Customer
+    //le pasamos el alias y en donde va a encontrar ese valor en este caso en userId
+    //que es la forign key, le decimos que hay una relacion
+    this.hasOne(models.Customer, {as: 'customer', foreignKey: 'userId'});
   }
 
   static config(sequelize){

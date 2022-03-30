@@ -13,7 +13,11 @@ class UserService {
   }
   //usamos el modelo con nombre User que guardo sequelize y traemos todo lo que tenga y lo retornamos
   async find() {
-    const resultado = await models.User.findAll();
+    const resultado = await models.User.findAll(
+      {
+        include: ["customer"]
+      }
+    );
     return resultado;
   }
 //funcion para buscar un usuario por su id usamos findByPk para buscar por id luego comparamos que sea
