@@ -1,81 +1,51 @@
-const faker = require('faker');
 const boom = require('@hapi/boom');
 //usamos el pool para manejar una unica conexion que siempre este abierta
-const sequelize = require('../libs/sequelize');
+const { models } = require('../libs/sequelize');
 class ProductsService {
-
-  constructor(){
-    this.products = [];
-    this.generate();
+  constructor() {
 
   }
 
-  generate() {
-    const limit = 100;
-    for (let index = 0; index < limit; index++) {
-      this.products.push({
-        id: faker.datatype.uuid(),
-        name: faker.commerce.productName(),
-        price: parseInt(faker.commerce.price(), 10),
-        image: faker.image.imageUrl(),
-        isBlock: faker.datatype.boolean(),
-      });
-    }
-  }
+
 
   async create(data) {
-    const newProduct = {
-      id: faker.datatype.uuid(),
-      ...data
-    }
-    this.products.push(newProduct);
+    //creacion de producto
+    const newProduct = await models.Product.create(data);
     return newProduct;
   }
 
   async find() {
-    //creamos un query y en y usamos sequelize para consultar la base de datos ya que con sequelize
-    //lo gestiona automaticamente
-    const query = 'SELECT * FROM tasks';
-    //sequelize devuelve data en un arreglo, por eso data va dentro, tambien maneja metadata pos si se usa
-    const [data] = await sequelize.query(query);
-    return {
-      data
-    };
+    //obtencion de todos los productos con su respectiva categoria que fue
+    //asignada al crear el producto
+    const products = await models.Product.findAll({
+      include: ["category"]
+    });
+    return products;
   }
 
   async findOne(id) {
-    const product = this.products.find(item => item.id === id);
+    //obtenemos producto por id
+    const product = models.Product.findByPk(id);
     if (!product) {
       throw boom.notFound('product not found');
-    }
-    if (product.isBlock) {
-      throw boom.conflict('product is block');
     }
     return product;
   }
 
   async update(id, changes) {
-    const index = this.products.findIndex(item => item.id === id);
-    if (index === -1) {
-      throw boom.notFound('product not found');
-    }
-    const product = this.products[index];
-    this.products[index] = {
-      ...product,
-      ...changes
-    };
-    return this.products[index];
+    //actualizamos con id y pasamos los cambios a update
+    const product = await this.findOne(id);
+
+    const resultado = product.update(changes);
+    return resultado;
   }
 
   async delete(id) {
-    const index = this.products.findIndex(item => item.id === id);
-    if (index === -1) {
-      throw boom.notFound('product not found');
-    }
-    this.products.splice(index, 1);
+    //eliminamos producto por id
+    const product = await this.findOne(id);
+    await product.destroy();
     return { id };
   }
-
 }
 
 module.exports = ProductsService;

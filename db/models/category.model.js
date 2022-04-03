@@ -18,7 +18,15 @@ const CategorySchema = {
     allowNull: false,
     type: DataTypes.STRING(100),
   },
-  created_At: {
+    //arreglo createdAt y updatedAt
+  createdAt: {
+    field: 'created_at',
+    allowNull: false,
+    type: DataTypes.DATE,
+    defaultValue: Sequelize.NOW,
+  },
+  updatedAt: {
+    field: 'updated_at',
     allowNull: false,
     type: DataTypes.DATE,
     defaultValue: Sequelize.NOW,

@@ -25,7 +25,15 @@ const ProductSchema = {
     allowNull: false,
     type: DataTypes.INTEGER
   },
-  created_At: {
+  //arreglo createdAt y updatedAt
+  createdAt: {
+    field: 'created_at',
+    allowNull: false,
+    type: DataTypes.DATE,
+    defaultValue: Sequelize.NOW,
+  },
+  updatedAt: {
+    field: 'updated_at',
     allowNull: false,
     type: DataTypes.DATE,
     defaultValue: Sequelize.NOW,
