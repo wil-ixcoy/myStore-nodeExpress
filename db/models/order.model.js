@@ -45,6 +45,19 @@ class Order extends Model {
     this.belongsTo(models.Customer, {
       as: 'customer',
     });
+  //en orders hacemos la relacion con la tabla products,
+  //diciendo que orders puede tener muchos productos, llamados items
+    this.belongsToMany(models.Product,{
+      as:'items',
+      //through significa a traves de que tabla se va a resolver la relacion
+      //y se coloca el nombre de la tabla ternaria
+      through: models.OrderProduct,
+      //colocamos llave foranea de la tabla OrderProduct
+      // para que lo encuentre
+      foreignKey: 'orderId',
+      //y la otra llave es la de productos
+      otherKey: 'productId',
+    })
   }
 
   static config(sequelize){
