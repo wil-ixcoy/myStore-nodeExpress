@@ -7,6 +7,9 @@ const description = Joi.string().min(10).max(100);
 const image = Joi.string().uri();
 //recibimos el id de la categoria
 const categoryId = Joi.number().integer();
+//valores para validar el query que se envia en la url
+const limit = Joi.number().integer();
+const offset = Joi.number().integer();
 
 const createProductSchema = Joi.object({
   name: name.required(),
@@ -28,5 +31,10 @@ const updateProductSchema = Joi.object({
 const getProductSchema = Joi.object({
   id: id.required(),
 });
+//se valida estos datos al enviarse el query en la url
+const queryProductSchema = Joi.object({
+  limit,
+  offset,
+});
 
-module.exports = { createProductSchema, updateProductSchema, getProductSchema }
+module.exports = { createProductSchema, updateProductSchema, getProductSchema, queryProductSchema };

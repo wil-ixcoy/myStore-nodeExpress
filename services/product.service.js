@@ -14,12 +14,21 @@ class ProductsService {
     return newProduct;
   }
 
-  async find() {
-    //obtencion de todos los productos con su respectiva categoria que fue
-    //asignada al crear el producto
-    const products = await models.Product.findAll({
-      include: ["category"]
-    });
+  async find(query) {
+    //creamos opciones en donde por defecto incluye a category
+    const options = {
+      include: ['category']
+    }
+    //recibimos los dos datos del query
+    const {limit, offset} = query;
+    //obligatoriamente deben estar los dos datos para ser agregados a options
+    if(limit && offset){
+      options.limit  = limit,
+      options.offset = offset
+    }
+
+    //pasamos optiones para obtener los productos
+    const products = await models.Product.findAll(options);
     return products;
   }
 
