@@ -6,6 +6,7 @@ const validatorHandler = require('./../middlewares/validator.handler');
 const {
   createOrderSchema,
   getOrderSchema,
+  addItemSchema,
 } = require('./../schemas/order.schema.js');
 
 const service = new OrderService();
@@ -23,6 +24,21 @@ router.post(
     }
   }
 );
+//ruta que sirve  agregar un item(producto) a una orden
+router.post('/add-item',
+  validatorHandler(addItemSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const body = req.body;
+      const newItem = await service.addItem(body);
+      res.status(201).json(newItem);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+
 router.get('/', async (req, res, next) => {
   try {
     const order = await service.find();

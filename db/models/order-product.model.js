@@ -26,7 +26,7 @@ const OrderProductSchema = {
     allowNull: false,
   },
   //llave foranea de la tabla order
-  order_id: {
+  orderId: {
     field: 'order_id',
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -38,7 +38,7 @@ const OrderProductSchema = {
     onDelete: 'SET NULL',
   },
   //llave foranea de la tabla product
-  product_id: {
+  productId: {
     field: 'product_id',
     type: DataTypes.INTEGER,
     allowNull: false,

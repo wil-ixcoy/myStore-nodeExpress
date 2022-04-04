@@ -36,19 +36,34 @@ const OrderSchema = {
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL',
   },
+  //esta es una forma de poder tener el total, teniendo todas las cantidades de productos y sus precios
+  total: {
+    //se crea un tipo de dato virtual
+    type: DataTypes.VIRTUAL,
+    //con get para ejecutar lo que necesitamos
+    get() {
+      //comparamos que items(como llamamos a la asociacion de productos) que sema mayor a cero
+      if (this.items.length > 0) {
+        //con reduce retornamos el total que se trabajo
+        return this.items.reduce((total, item) => {
+          return total + item.price * item.OrderProduct.amount;
+        }, 0);
+      }
+      return 0;
+    },
+  },
 };
 
-
 class Order extends Model {
-  static associate(models){
+  static associate(models) {
     //una orden puede tenner varios clientes
     this.belongsTo(models.Customer, {
       as: 'customer',
     });
-  //en orders hacemos la relacion con la tabla products,
-  //diciendo que orders puede tener muchos productos, llamados items
-    this.belongsToMany(models.Product,{
-      as:'items',
+    //en orders hacemos la relacion con la tabla products,
+    //diciendo que orders puede tener muchos productos, llamados items
+    this.belongsToMany(models.Product, {
+      as: 'items',
       //through significa a traves de que tabla se va a resolver la relacion
       //y se coloca el nombre de la tabla ternaria
       through: models.OrderProduct,
@@ -57,17 +72,16 @@ class Order extends Model {
       foreignKey: 'orderId',
       //y la otra llave es la de productos
       otherKey: 'productId',
-    })
+    });
   }
 
-  static config(sequelize){
-    return{
+  static config(sequelize) {
+    return {
       sequelize,
       tableName: ORDER_TABLE,
       modelName: 'Order',
       timpstamps: true,
-
-    }
+    };
   }
 }
 
