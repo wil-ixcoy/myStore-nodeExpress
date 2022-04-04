@@ -1,4 +1,5 @@
 const boom = require('@hapi/boom');
+const {Op} = require('sequelize');
 //usamos el pool para manejar una unica conexion que siempre este abierta
 const { models } = require('../libs/sequelize');
 class ProductsService {
@@ -17,14 +18,29 @@ class ProductsService {
   async find(query) {
     //creamos opciones en donde por defecto incluye a category
     const options = {
-      include: ['category']
+      include: ['category'],
+      where:{}
     }
     //recibimos los dos datos del query
-    const {limit, offset} = query;
+    const {limit, offset, price, priceMax, priceMin} = query;
     //obligatoriamente deben estar los dos datos para ser agregados a options
     if(limit && offset){
       options.limit  = limit,
       options.offset = offset
+    }
+
+    if(price){
+      options.where.price = price;
+    }
+    //validamos que pricemin y max vengan en el query
+    if(priceMin && priceMax){
+      //hacemos la consulta y el precio sera
+      options.where.price = {
+        //apareceran los iguales o meyores a
+        [Op.gte]: priceMin,
+        //y menores o iguales a
+        [Op.lte]: priceMax,
+      }
     }
 
     //pasamos optiones para obtener los productos

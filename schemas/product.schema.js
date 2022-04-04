@@ -10,6 +10,8 @@ const categoryId = Joi.number().integer();
 //valores para validar el query que se envia en la url
 const limit = Joi.number().integer();
 const offset = Joi.number().integer();
+const priceMin = Joi.number().integer();
+const priceMax = Joi.number().integer();
 
 const createProductSchema = Joi.object({
   name: name.required(),
@@ -32,9 +34,23 @@ const getProductSchema = Joi.object({
   id: id.required(),
 });
 //se valida estos datos al enviarse el query en la url
+
+//agregamos mas formas para poder filtrar por precios y por rangos de precios
 const queryProductSchema = Joi.object({
   limit,
   offset,
+  price,
+  priceMin,
+  //decimos que priceMax es obligatorio si priceMin es diferente de undefined
+  priceMax: priceMax.when('priceMin', {
+    is: Joi.number().integer(),
+    then: Joi.required(),
+  }),
 });
 
-module.exports = { createProductSchema, updateProductSchema, getProductSchema, queryProductSchema };
+module.exports = {
+  createProductSchema,
+  updateProductSchema,
+  getProductSchema,
+  queryProductSchema,
+};
