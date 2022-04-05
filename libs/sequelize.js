@@ -9,8 +9,10 @@ const options = {
 //agrega rejectUnauthorized:false para poder hacer deploy en caso
 //de que sea true isProduct
 if(config.isProd){
-  options.ssl = {
-    rejectUnauthorized: false
+  options.dialectOptions = {
+    ssl : {
+      rejectUnauthorized: false
+    }
   }
 }
 
