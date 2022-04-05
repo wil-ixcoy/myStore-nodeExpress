@@ -9,7 +9,7 @@ if (config.isProd) {
   options.ssl = {
     rejectUnauthorized: false,
   };
-}else {
+} else {
   //si no cumple que haga lo mismo de siempre en development
   const USER = encodeURIComponent(config.dbUser);
   const PASSWORD = encodeURIComponent(config.dbPassword);
@@ -20,6 +20,6 @@ if (config.isProd) {
 }
 
 //creamos el pool de conexiones con el URI
-const pool = new Pool({});
+const pool = new Pool( options );
 
 module.exports = pool;
