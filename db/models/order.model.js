@@ -36,22 +36,7 @@ const OrderSchema = {
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL',
   },
-  //esta es una forma de poder tener el total, teniendo todas las cantidades de productos y sus precios
-  total: {
-    //se crea un tipo de dato virtual
-    type: DataTypes.VIRTUAL,
-    //con get para ejecutar lo que necesitamos
-    get() {
-      //comparamos que items(como llamamos a la asociacion de productos) que sema mayor a cero
-      if (this.items.length > 0) {
-        //con reduce retornamos el total que se trabajo
-        return this.items.reduce((total, item) => {
-          return total + item.price * item.OrderProduct.amount;
-        }, 0);
-      }
-      return 0;
-    },
-  },
+//quitamos el total virtual por que  causo errores
 };
 
 class Order extends Model {

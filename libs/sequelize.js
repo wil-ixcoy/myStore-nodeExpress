@@ -2,20 +2,21 @@ const { Sequelize } = require('sequelize');
 const  config  = require('../config/config.js');
 const {setupModels}= require('../db/models/index.js');
 
-const USER = encodeURIComponent(config.dbUser);
-const PASSWORD = encodeURIComponent(config.dbPassword);
-
-//creamos la url de conexion con postgres
-const URI = `postgres://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/${config.dbName}`;
-
-
-//creamos una instancia de sequelize pasandole la uri en donde se va a conectar, dialect es el tipo de
-//base de datos que se va a utilizar y logging es para ver si esta activado el log de las consultas
-const sequelize = new Sequelize(URI,{
+const options = {
   dialect: "postgres",
-  logging: true,
+  logging: config.isProd ? false : true,
+}
+//agrega rejectUnauthorized:false para poder hacer deploy en caso
+//de que sea true isProduct
+if(config.isProd){
+  options.ssl = {
+    rejectUnauthorized: false
+  }
+}
 
-})
+//se usa la variable dbUrl de config
+//pasamos las opciones
+const sequelize = new Sequelize(config.dbUrl, options);
 
 //enviamos al conexion hecha a db/models/index.js para que este conecte con los modelos
 setupModels(sequelize);

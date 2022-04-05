@@ -44,7 +44,8 @@ const queryProductSchema = Joi.object({
   //decimos que priceMax es obligatorio si priceMin es diferente de undefined
   priceMax: priceMax.when('priceMin', {
     is: Joi.number().integer(),
-    then: Joi.required(),
+    //cambio a no es requerido
+    then: Joi.number().integer(),
   }),
 });
 

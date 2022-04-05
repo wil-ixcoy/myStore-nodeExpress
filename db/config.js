@@ -1,21 +1,19 @@
 //vamos a crear los archivos de conexion, usaurio password y demas
+//MANEJA LAS MIGRACIONES
+ const config = require('./../config/config')
 
-/* const {config} = require('../config/config.js');
- */
-const USER = encodeURIComponent("nico");
-const PASSWORD = encodeURIComponent("admin123");
-
-const URI = `postgres://${USER}:${PASSWORD}@localhost:5432/postgres`;
 //se crea la configuracion para modo de desarrollo cuando se usa en local, y modo produccion
-//cuando se haga deploy a heroku
+//cuando se haga deploy a heroku, se usa la variable de config
+//para poder ver que es si dev o produccion
 module.exports = {
   development:{
-    url: URI,
+
+    url: config.dbUrl,
     dialect: "postgres",
 
   },
   production:{
-    url: URI,
+    url: config.dbUrl,
     dialect: "postgres",
   }
 }
