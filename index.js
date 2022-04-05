@@ -10,7 +10,7 @@ const {
 } = require('./middlewares/error.handler');
 
 const app = express();
-
+const port = process.env.PORT || 3000;
 app.use(express.json());
 
 const whitelist = ['http://localhost:8080', 'https://myapp.co'];
@@ -40,6 +40,6 @@ app.use(ormErrorHandler);
 app.use(boomErrorHandler);
 app.use(errorHandler);
 
-app.listen(3000, () => {
+app.listen(port, () => {
   console.log('Servidor corriendo en el puerto 3000');
 });
