@@ -16,5 +16,6 @@ const config = {
   //de development pero si es produccion es la de Heroku
   //se define en las variables de ambiente
   dbUrl: process.env.DATABASE_URL,
+  apiKey: process.env.API_KEY,
 };
 module.exports = config;

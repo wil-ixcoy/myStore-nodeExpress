@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const routerApi = require('./routes');
+const {checkApiKey} = require('./middlewares/auth.handler');
 
 const {
   logErrors,
@@ -28,8 +29,8 @@ app.use(cors(options));
 app.get('/', (req, res) => {
   res.send('Hola mi server en express');
 });
-
-app.get('/nueva-ruta', (req, res) => {
+//uso del middleware para verificar el apiKey
+app.get('/nueva-ruta', checkApiKey,(req, res) => {
   res.send('Hola, soy una nueva ruta');
 });
 
