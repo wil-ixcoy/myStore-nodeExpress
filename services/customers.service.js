@@ -34,11 +34,11 @@ class CustomerService {
         password:hash
       }
     }
-    delete newData.user.dataValues.password;
     //al crear un cliente, con la data, pero incluye los datos del usuario como email y contraseña
     const newCustomer = await models.Customer.create(newData,{
       include: ['user'],
     });
+    delete newCustomer.dataValues.user.dataValues.password;
     return newCustomer;
   }
 

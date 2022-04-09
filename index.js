@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+//ejecutamos el index.js con esrategias en utils
+require('./utils/auth')
 const routerApi = require('./routes');
 const {checkApiKey} = require('./middlewares/auth.handler');
 

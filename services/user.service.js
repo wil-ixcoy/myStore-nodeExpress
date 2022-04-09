@@ -27,6 +27,14 @@ class UserService {
     );
     return resultado;
   }
+//funcion que busca un email where para definir lo que debe buscar
+
+  async findEmail(email) {
+    const resultado = await models.User.findOne({
+      where:{email}
+    });
+    return resultado;
+  }
 //funcion para buscar un usuario por su id usamos findByPk para buscar por id luego comparamos que sea
 //distinto de nulo si lo es retornamos un error con boom
   async findOne(id) {
