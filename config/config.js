@@ -17,5 +17,7 @@ const config = {
   //se define en las variables de ambiente
   dbUrl: process.env.DATABASE_URL,
   apiKey: process.env.API_KEY,
+  //secreto de jwt en variable de entorno
+  jwtSecret: process.env.JWT_SECRET,
 };
 module.exports = config;
