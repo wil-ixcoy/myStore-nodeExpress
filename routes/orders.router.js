@@ -1,5 +1,5 @@
 const express = require('express');
-
+const passport = require('passport');
 const router = express.Router();
 const OrderService = require('./../services/order.service');
 const validatorHandler = require('./../middlewares/validator.handler');
@@ -13,6 +13,7 @@ const service = new OrderService();
 
 router.post(
   '/',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(createOrderSchema, 'body'),
   async (req, res, next) => {
     try {
@@ -26,6 +27,7 @@ router.post(
 );
 //ruta que sirve  agregar un item(producto) a una orden
 router.post('/add-item',
+passport.authenticate('jwt', { session: false }),
   validatorHandler(addItemSchema, 'body'),
   async (req, res, next) => {
     try {
@@ -39,7 +41,9 @@ router.post('/add-item',
 );
 
 
-router.get('/', async (req, res, next) => {
+router.get('/',
+passport.authenticate('jwt', { session: false }),
+async (req, res, next) => {
   try {
     const order = await service.find();
     res.json(order);
@@ -50,6 +54,7 @@ router.get('/', async (req, res, next) => {
 
 router.get(
   '/:id',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getOrderSchema, 'params'),
   async (req, res, next) => {
     try {
