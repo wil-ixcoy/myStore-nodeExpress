@@ -1,14 +1,11 @@
 //con passport-local podemos hacer login con email y contraseña, obtenemos una
 //estrategia para poder trabajar
 const { Strategy } = require('passport-local');
-const boom = require('@hapi/boom');
-const bcrypt = require('bcrypt');
-
 //uso del servicio de autenticacion
-const UserService = require('../../../services/user.service');
-const service = new UserService();
+const AuthService = require('../../../services/auth.service');
+const service = new AuthService();
 
-//estrategia cola y creamos una instancia de la estrategia creada.
+//estrategia local y creamos una instancia de la estrategia creada.
 //obtenemos lo que necesitamos, y la funcion done para usarla cuando salga bien o mal
 const localStrategy = new Strategy(
   {
@@ -19,21 +16,8 @@ const localStrategy = new Strategy(
 
   async (email, password, done) => {
     try {
-      //obtenemos el email del servicio en la function findEmail
-      const user = await service.findEmail(email);
-      //validamos que exista y si no lanzamos un error
-      if (!user) {
-        done(boom.unauthorized(), false);
-      }
-      //comparmos que el password sea igual al hash de la base de datos
-
-      //REVISAR ESTO
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) {
-        done(boom.unauthorized(), false);
-      }
-      delete user.dataValues.password;
-      //usamos done pero null por que no hay error y el user,
+      //uso del del servicio de auth creado en este commit le enviamos email y contraseña
+      const user = await service.getUser(email,password);
       done(null, user);
     } catch (error) {
       done(error, false);

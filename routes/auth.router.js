@@ -1,7 +1,10 @@
 const express = require('express');
 const passport = require('passport');
-const jwt = require('jsonwebtoken');
-const config = require('../config/config')
+
+
+const AuthService = require('./../services/auth.service');
+
+const service = new AuthService();
 
 const router = express.Router();
 
@@ -10,15 +13,26 @@ const router = express.Router();
 router.post('/login',passport.authenticate('local',{session:false}),
 async ( req,res,next)=>{
   try{
+    //obtener el usurio en el request
     const user = req.user;
-    //creamos el payload
-    const payload = {
-      sub: user.id,
-      role: user.role
-    }
-    //firmamos el token y los mostramos en el res.json
-    const token = jwt.sign(payload,config.jwtSecret);
-    res.json({user,token})
+    //respondemos con json la firma del token hecho en auth.service en el metodo signToken
+    res.json(service.signToken(user));
+  }catch(error){
+    next(error)
+  }
+}
+);
+//enviemos correo al email
+router.post('/recovery',
+async ( req,res,next)=>{
+  try{
+    //obtenemo solo el email del body
+    const {email} = req.body;
+    //lo enviamos a sendEmail para que revise que este y si essta envie un email
+    //a la direccion proporcioanda y re responde en json
+    const response = await service.sendEmail(email);
+    res.json(response);
+
   }catch(error){
     next(error)
   }
