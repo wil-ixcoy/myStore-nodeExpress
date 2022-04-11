@@ -19,5 +19,7 @@ const config = {
   apiKey: process.env.API_KEY,
   //secreto de jwt en variable de entorno
   jwtSecret: process.env.JWT_SECRET,
+  email: process.env.EMAIL,
+  emailPassword: process.env.EMAIL_PASSWORD,
 };
 module.exports = config;
