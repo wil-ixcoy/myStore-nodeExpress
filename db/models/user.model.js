@@ -23,6 +23,12 @@ const UserSchema = {
     allowNull: false,
     type: DataTypes.STRING,
   },
+  //atributo para verificar el token de recuperacion de contraseña
+  recoveryToken: {
+    field: 'recovery_token',
+    allowNull: true,
+    type: DataTypes.STRING,
+  },
   role:{
     allowNull: false,
     type: DataTypes.STRING,
@@ -40,6 +46,7 @@ const UserSchema = {
     field: 'updated_at',
     defaultValue: Sequelize.NOW,
   },
+
 };
 
 

@@ -16,5 +16,10 @@ const config = {
   //de development pero si es produccion es la de Heroku
   //se define en las variables de ambiente
   dbUrl: process.env.DATABASE_URL,
+  apiKey: process.env.API_KEY,
+  //secreto de jwt en variable de entorno
+  jwtSecret: process.env.JWT_SECRET,
+  email: process.env.EMAIL,
+  emailPassword: process.env.EMAIL_PASSWORD,
 };
 module.exports = config;
