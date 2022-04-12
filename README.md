@@ -1,5 +1,5 @@
 MyStore es un proyecto en donde se desarrolla la API para un eccomerce con las siguientes tecnologías:
-n\-Javascript
+\-Javascript
 -Express
 -Passport.js
 -JWT
