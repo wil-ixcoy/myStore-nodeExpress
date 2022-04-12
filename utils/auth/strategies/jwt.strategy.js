@@ -2,13 +2,13 @@
 //con el uso de passport-jwt
 const { Strategy, ExtractJwt } = require('passport-jwt');
 
-const  config  = require('../../../config/config');
-
+/* const  config  = require('../../../config/config');
+ */
 //creamos opciones para la estrategia obteiendo el token desde el authHeader
 //que se encuetra
 const options = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: config.jwtSecret
+  secretOrKey: 'yUQNWj3LnS5czmBfFapvrA7sYCVIHdk6'
 }
 //creamos la estrategia con el payload y lanzamos done con null y el payload
 const JwtStrategy = new Strategy(options, (payload, done) => {
