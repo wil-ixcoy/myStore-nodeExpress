@@ -33,7 +33,7 @@ class AuthService {
       role: user.role,
     };
     //firmamos el token y los mostramos en el res.json
-    const token = jwt.sign(payload, config.jwtSecret);
+    const token = jwt.sign(payload, 'clavesecretaparaeljsonwebtokencomono');
     return {
       user,
       token,
@@ -50,7 +50,7 @@ class AuthService {
     //creamos un payload que tenga el id del usuario para leugo verificar que es el
     const payload = {sub: emailComprobation.id};
     //firmamos el token con payload y la clave secreta y expira en 10 minutos
-    const token = jwt.sign(payload, config.jwtSecret,{expiresIn: '10min'});
+    const token = jwt.sign(payload, 'clavesecretaparaeljsonwebtokencomono',{expiresIn: '10min'});
 //para esto se el dice al frontend que tengan una vista para recibir esta url, normalmente acpeta la nueva contraseña
 //para cambiarlo en el backend
     const link= `http://myfrontend.com/recovery?token=${token}`;
@@ -90,7 +90,7 @@ class AuthService {
   async changePassword(token,newPassword){
     try{
       //vericiamos el token con el secreo
-      const payload = jwt.verify(token, config.jwtSecret);
+      const payload = jwt.verify(token, 'clavesecretaparaeljsonwebtokencomono');
       //obtenemos el id del usuario que esta en el sub del payload
       const user = await service.findOne(payload.sub);
 
