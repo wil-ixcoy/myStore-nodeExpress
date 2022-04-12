@@ -5,27 +5,30 @@ const {models} = require("../libs/sequelize");
 
 class UserService {
   constructor() {}
+
+
 //funcion para crear un usuario, recibe un objeto con los datos del usuario
   async create(data) {
     //uso de bycript
     const hash = await bcrypt.hash(data.password,5)
     //creamos un nuevo usuario al que le pasamos el hash para guardar en el lugar del password
-    const newUSer = await models.User.create({
+    const newUser = await models.User.create({
       ...data,
       password:hash
     });
     //borramos el password para que no se muestre como respuesta en el cliente
-    delete newUSer.dataValues.password;
-    return newUSer;
+    delete newUser.dataValues.password;
+    return newUser;
   }
+
   //usamos el modelo con nombre User que guardo sequelize y traemos todo lo que tenga y lo retornamos
   async find() {
-    const resultado = await models.User.findAll(
+    const user = await models.User.findAll(
       {
         include: ["customer"]
       }
     );
-    return resultado;
+    return user;
   }
 //funcion que busca un email where para definir lo que debe buscar
 
@@ -33,6 +36,7 @@ class UserService {
     const resultado = await models.User.findOne({
       where:{email}
     });
+
     return resultado;
   }
 //funcion para buscar un usuario por su id usamos findByPk para buscar por id luego comparamos que sea
