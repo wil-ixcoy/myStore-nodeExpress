@@ -28,9 +28,9 @@ async ( req,res,next)=>{
   try{
     //obtenemo solo el email del body
     const {email} = req.body;
-    //lo enviamos a sendEmail para que revise que este y si essta envie un email
+    //lo enviamos a sendRecovery para que revise que este y si essta envie un email
     //a la direccion proporcioanda y re responde en json
-    const response = await service.sendEmail(email);
+    const response = await service.sendRecovery(email);
     res.json(response);
 
   }catch(error){

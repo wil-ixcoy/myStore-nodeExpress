@@ -39,15 +39,37 @@ class AuthService {
       token,
     };
   }
-//para obtener el email del usuaraio envido desde el body
-  async sendEmail(email) {
+
+  async sendRecovery(email) {
     //comprobamos que el email existe con el servicio de findEmail de uer
     const emailComprobation = await service.findEmail(email);
 
-    if(!emailComprobation){
+    if (!emailComprobation) {
       throw boom.unauthorized();
     }
-//creamose el tranport para enviar el email
+    //creamos un payload que tenga el id del usuario para leugo verificar que es el
+    const payload = {sub: emailComprobation.id};
+    //firmamos el token con payload y la clave secreta y expira en 10 minutos
+    const token = jwt.sign(payload, config.jwtSecret,{expiresIn: '10min'});
+//para esto se el dice al frontend que tengan una vista para recibir esta url, normalmente acpeta la nueva contraseña
+//para cambiarlo en el backend
+    const link= `http://myfrontend.com/recovery?token=${token}`;
+
+    //usamos update de user para agregar el al usuario con id el token
+    await service.update(emailComprobation.id, {recoveryToken: token});
+    //configuramos el email
+    const mail = {
+      from: config.email,
+      to: `${emailComprobation.email}`,
+      subject: 'Email para recuperar contraseña',
+      html: `<b>Ingresa  este link =>${link} </b>`,
+    };
+    const rta = await this.sendEmail(mail);
+    return rta;
+  }
+
+  async sendEmail(infoMail) {
+    //creamose el tranport para enviar el email
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 465,
@@ -57,17 +79,12 @@ class AuthService {
         pass: config.emailPassword,
       },
     });
-//envamos el email
-    await transporter.sendMail({
-      from: config.email,
-      to: `${emailComprobation.email}`,
-      subject: 'Este es un correo enviado con node.js',
-      text: 'Hola mundo con nodemailer',
-      html: '<b>Hola mundo con nodemailer</b>',
-    });
+    //envamos el email pasando solo un parametro poor que ya esta configurado en el metodo
+    //sendRecovery
+    await transporter.sendMail(infoMail);
     return {
       message: 'email sent',
-    }
+    };
   }
 }
 
